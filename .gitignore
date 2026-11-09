@@ -1,4 +1,50 @@
-build/bin
-node_modules
-frontend/dist
-frontend/.svelte-kit
+# --- Wails ---------------------------------------------------------------
+# Build output (.app bundles, .exe, etc.). build/ itself holds tracked
+# platform assets (icons, Info.plist, Windows manifests).
+build/bin/
+# Hash Wails uses to decide whether to re-run `npm install`
+frontend/package.json.md5
+# NOTE: frontend/wailsjs/ is generated but intentionally tracked —
+# the frontend imports it, so it must exist for type checking and builds.
+
+# --- Frontend (SvelteKit / Vite) -----------------------------------------
+node_modules/
+# SPA build output, embedded by main.go via //go:embed all:frontend/dist
+frontend/dist/
+# SvelteKit generated types and build cache
+frontend/.svelte-kit/
+frontend/vite.config.ts.timestamp-*
+frontend/vite.config.js.timestamp-*
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# --- Go ------------------------------------------------------------------
+*.test
+*.out
+coverage.*
+*.coverprofile
+go.work
+go.work.sum
+/vendor/
+
+# --- Secrets / local env -------------------------------------------------
+# The API token lives in the OS keyring, never in the repo.
+.env
+.env.*
+!.env.example
+
+# --- Editors / IDEs ------------------------------------------------------
+# .idea/ is partially tracked (shared run configs, dictionaries);
+# .idea/.gitignore excludes the per-user files like workspace.xml.
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+*.swp
+*~
+
+# --- OS ------------------------------------------------------------------
+.DS_Store
+Thumbs.db
+desktop.ini
