@@ -16,12 +16,11 @@ func (a *App) GetConfig() config.Config {
 }
 
 // SetConfig sets the application configuration.
-// The API token is never sent to the frontend, so the current token is kept.
 func (a *App) SetConfig(cfg config.Config) error {
 	if a.session != nil {
 		err := a.session.SetClientOptions(session.ClientOptions{
-			BaseURL: a.config.BaseURL,
-			Timeout: a.config.Timeout,
+			BaseURL: cfg.BaseURL,
+			Timeout: cfg.Timeout,
 		})
 		if err != nil {
 			return err
@@ -48,4 +47,12 @@ func (a *App) SetAPIToken(token string) error {
 		return errors.New("API session not initialized")
 	}
 	return a.session.SetToken(a.ctx, token)
+}
+
+// SignOut clears the API token from memory and the OS keyring
+func (a *App) SignOut() error {
+	if a.session == nil {
+		return errors.New("API session not initialized")
+	}
+	return a.session.Clear()
 }

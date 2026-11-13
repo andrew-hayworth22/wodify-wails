@@ -3,11 +3,20 @@ package app
 import (
 	"context"
 	"fmt"
+	"time"
 
 	"github.com/andrew-hayworth22/wodify-wails/internal/config"
 	"github.com/andrew-hayworth22/wodify-wails/internal/session"
 	"github.com/wailsapp/wails/v2/pkg/runtime"
 )
+
+// windowShowFallback is how long Startup waits before showing the window in event
+// that the frontend fails to show the window.
+const windowShowFallback = 3 * time.Second
+
+// EventAuthExpired is emitted to the frontend when an API call is rejected as unauthorized and the session is cleared.
+// Keep in sync with AUTH_EXPIRED_EVENT in frontend/src/lib/auth.ts.
+const EventAuthExpired = "auth:expired"
 
 // App struct
 type App struct {
@@ -24,6 +33,9 @@ func New() *App {
 // Startup is called when the app starts. The context is saved so we can call the runtime methods
 func (a *App) Startup(ctx context.Context) {
 	a.ctx = ctx
+
+	time.AfterFunc(windowShowFallback, func() { runtime.WindowShow(ctx) })
+
 	cfg, err := config.Read()
 	if err != nil {
 		fmt.Printf("reading config: %v\n", err)
@@ -37,7 +49,7 @@ func (a *App) Startup(ctx context.Context) {
 			Timeout: cfg.Timeout,
 		},
 		OnUnauthorized: func() {
-			runtime.EventsEmit(ctx, "auth:expired")
+			runtime.EventsEmit(ctx, EventAuthExpired)
 		},
 	})
 	if err != nil {

@@ -31,7 +31,9 @@ func setToken(token string) error {
 }
 
 func deleteToken() error {
-	if err := keyring.Delete(keyringService, keyringUser); err != nil {
+	// A missing entry is already the desired state.
+	err := keyring.Delete(keyringService, keyringUser)
+	if err != nil && !errors.Is(err, keyring.ErrNotFound) {
 		return fmt.Errorf("deleting token from keyring: %w", err)
 	}
 	return nil

@@ -15,15 +15,23 @@ type Config struct {
 	BaseURL string `json:"base_url"`
 	// Timeout represents the timeout for API requests
 	Timeout time.Duration `json:"timeout"`
-	// DarkMode represents whether the application is in dark mode
-	DarkMode bool `json:"dark_mode"`
+	// Theme is the color theme: ThemeSystem, ThemeLight, or ThemeDark.
+	// An empty value is treated as ThemeSystem.
+	Theme string `json:"theme"`
 }
+
+// Theme values for Config.Theme
+const (
+	ThemeSystem = "system"
+	ThemeLight  = "light"
+	ThemeDark   = "dark"
+)
 
 // defaultConfig returns the default configuration
 func defaultConfig() *Config {
 	return &Config{
-		DarkMode: false,
-		BaseURL:  "https://devapi.wodify.com/v1",
+		Theme:   ThemeSystem,
+		BaseURL: "https://devapi.wodify.com/v1",
 	}
 }
 

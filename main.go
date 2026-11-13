@@ -21,6 +21,9 @@ func main() {
 		Title:  "Wodify",
 		Width:  1024,
 		Height: 768,
+		// The frontend shows the window once the theme is applied, avoiding a
+		// background flash. App.Startup has a fallback in case it never does.
+		StartHidden: true,
 		AssetServer: &assetserver.Options{
 			Assets: assets,
 		},

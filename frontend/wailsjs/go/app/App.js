@@ -25,3 +25,7 @@ export function SetAPIToken(arg1) {
 export function SetConfig(arg1) {
   return window['go']['app']['App']['SetConfig'](arg1);
 }
+
+export function SignOut() {
+  return window['go']['app']['App']['SignOut']();
+}

@@ -13,3 +13,5 @@ export function SaveConfig():Promise<void>;
 export function SetAPIToken(arg1:string):Promise<void>;
 
 export function SetConfig(arg1:config.Config):Promise<void>;
+
+export function SignOut():Promise<void>;

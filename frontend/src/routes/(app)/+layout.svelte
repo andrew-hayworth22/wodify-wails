@@ -1,5 +1,12 @@
 <script lang="ts">
+    import { onMount } from 'svelte';
+    import { invalidate } from '$app/navigation';
+    import { EventsOn } from '../../../wailsjs/runtime';
+    import { AUTH_DEP, AUTH_EXPIRED_EVENT } from '#lib/auth.ts';
+
     let { children } = $props();
+
+    onMount(() => EventsOn(AUTH_EXPIRED_EVENT, () => invalidate(AUTH_DEP)));
 </script>
 
 <!-- Placeholder shell for authenticated routes -->
@@ -8,6 +15,7 @@
         <span class="font-semibold text-gray-900 dark:text-white">Wodify</span>
         <nav class="flex gap-4 text-sm text-gray-600 dark:text-gray-400">
             <a href="/" class="hover:text-gray-900 dark:hover:text-white">Home</a>
+            <a href="/settings" class="hover:text-gray-900 dark:hover:text-white">Settings</a>
         </nav>
     </header>
 
