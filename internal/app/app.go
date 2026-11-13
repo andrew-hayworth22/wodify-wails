@@ -10,7 +10,7 @@ import (
 	"github.com/wailsapp/wails/v2/pkg/runtime"
 )
 
-// windowShowFallback is how long Startup waits before showing the window in event
+// windowShowFallback is how long Startup waits before showing the window in the event
 // that the frontend fails to show the window.
 const windowShowFallback = 3 * time.Second
 
